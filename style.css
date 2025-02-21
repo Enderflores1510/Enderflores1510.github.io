@@ -3,15 +3,21 @@
     margin: 0;
     padding: 0;
 }
+html{
+    height: 100%;
+}
 body{
-    min-height: 100vh;
+    min-height: 100%;
     background-image: url(img/Fondo.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    background-attachment: fixed; 
     font-family: 'Roboto', serif;
-    
+    display: flex;
+    flex-direction: column;
 }
+
 nav{
     background-color: rgb(49, 153, 113);
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
@@ -102,28 +108,36 @@ h1{
 .container{
     margin: 80px auto;
     width: 70%;
-    max-width: 1000px;
+    max-width: 1200px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
-    gap: 50px;
+    gap: 50px;  
     justify-content: center;
 }
 .box{
+    position: relative;
     padding: 2em;
     border: 1px solid rgb(54, 11, 11);
     border-radius: 10px;
     background-color: aliceblue;
     text-align: center;
 }
-.boximg{
-    width: 210px;
-    height: 100px;
-}
+
 .boximgsquare{
     width: 150px;
     height: 150px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+.box .btncont{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: 10px;
 }
 .btn{
+    
     display: inline-flex;
     height: 35px;
     background-color: aliceblue;
@@ -133,6 +147,7 @@ h1{
     cursor: pointer;
     transition: all .3s;
     margin-top: 15px;
+    margin-bottom: 10px;
     padding: 0px 10px;
     align-items: center;
     text-align: center;
@@ -170,4 +185,13 @@ h1{
     
     margin: 30px 0;
     height: auto;
+}
+footer{
+    background-color: rgb(49, 153, 113);
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: rgb(239, 239, 239);
+    align-items: center;
+    margin-top: auto;
+    padding: 25px;
 }
