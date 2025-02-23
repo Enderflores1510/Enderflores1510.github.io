@@ -13,7 +13,7 @@ body{
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed; 
-    font-family: 'Roboto', serif;
+    font: 16px"Roboto", serif;
     display: flex;
     flex-direction: column;
 }
@@ -193,5 +193,11 @@ footer{
     color: rgb(239, 239, 239);
     align-items: center;
     margin-top: auto;
-    padding: 25px;
+    padding: 20px;
+}
+figcaption{
+    font-size: 14px;
+}
+p{
+    margin: 1em 0;
 }
