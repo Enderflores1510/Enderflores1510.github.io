@@ -47,17 +47,75 @@
                 <h1>Algoritmo del punto medio para circunferencias</h1>
                 <h3>Definición:</h3>
                 <p>
-                    El algoritmo de generación de línea de Bresenham es un método de
-                    trazado de líneas en dispositivos gráficos, este método algorítmico
-                    es aplicable también a la generación de circunferencias y curvas.
+                    El algoritmo del punto medio para circunferencias es un algoritmo usado para determinar los puntos necesarios para rasterizar una circunferencia. El algoritmo se puede generalizar a curvas cónicas. 
                 </p>
                 <p>
 
                 </p>
                 <figure>
-                    <img src="img/Bresenham.aaasvg.png" alt="" width="420px" height="200px">
-                    <figcaption>Resultado del algoritmo de generación de linea de Bresenham</figcaption>
+                    <img src="img/Midpoint_circle_algorithm_animation_(radius_23).gif" alt="" width="420px" height="200px">
+                    <figcaption>Proceso del algoritmo de punto medio para la generación de circunferencias</figcaption>
                 </figure>
+                <h3>Funcionamiento</h3>
+                <p>
+                    Similar al algoritmo de la circunferencia de Bresenham, se parte de un círculo con centro (xc, yc) y radio r.
+                    Se inicializa un valor d que determina el comportamiento de la curva.
+                </p>
+                <p>
+                    Dependiendo del valor de d, se decide si el siguiente punto debe ser a la derecha o hacia abajo y hacia la derecha (en términos de coordenadas).
+                    Al igual que el algoritmo anterior, los puntos calculados se reflejan sobre los ocho octantes de la circunferencia.
+                </p>
+                <div class="code-snipet">
+                    <pre>
+                        <code>
+                        void CircunferenciaPuntoMedio(int xc, int yc, int r) {
+                            int x = 0, y = r;
+                            int d = 1 - r;
+                    
+                            setcolor(GREEN);
+                    
+                            while (x <= y) {
+                                putpixel(xc + x, yc + y, GREEN);
+                                putpixel(xc - x, yc + y, GREEN);
+                                putpixel(xc + x, yc - y, GREEN);
+                                putpixel(xc - x, yc - y, GREEN);
+                                putpixel(xc + y, yc + x, GREEN);
+                                putpixel(xc - y, yc + x, GREEN);
+                                putpixel(xc + y, yc - x, GREEN);
+                                putpixel(xc - y, yc - x, GREEN);
+                    
+                                if (d < 0) {
+                                    d = d + 2 * x + 3;
+                                } else {
+                                    d = d + 2 * (x - y) + 5;
+                                    y--;
+                                }
+                                x++;
+                            }
+                        }
+                        </code>
+                    </pre>
+                </div>
+                <h3>Entrada</h3>
+                <p>Centro de la circunferencia (xc, yc) y radio r.</p>
+
+                <h3>Inicio</h3>
+                <p>Se inicializan las variables x = 0 y y = r, que representan las coordenadas del punto en el perímetro de la circunferencia.</p>
+
+                <h3>Cálculo del error</h3>
+                <p>La variable d es usada para controlar el proceso de dibujar la circunferencia. Se inicia con d = 1 - r, que es el error inicial.</p>
+
+                <h3>Bucle principal</h3>
+                <p>A medida que se dibujan los puntos de la circunferencia, la función va actualizando x y y y calcula el nuevo valor de d en cada iteración.</p>
+
+                <p>Si el error d es negativo, se ajusta sumando a d el término 2 * x + 3, moviendo el punto hacia la derecha.</p>
+                <p>Si el error es positivo o igual a cero, se ajusta con 2 * (x - y) + 5, moviendo el punto en diagonal hacia abajo y hacia la derecha.</p>
+
+                <h3>Simetría</h3>
+                <p>Como una circunferencia es simétrica, se dibujan ocho puntos en cada iteración, aprovechando la simetría con respecto a los ejes y las diagonales.</p>
+
+                <h3>Condición de salida</h3>
+                <p>El bucle termina cuando x supera a y, lo que indica que la circunferencia ha sido trazada por completo.</p>
             </div>
         </div>
     </main>

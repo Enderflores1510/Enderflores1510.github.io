@@ -13,7 +13,7 @@ body{
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed; 
-    font: 16px"Roboto", serif;
+    font: 18px"Roboto", serif;
     display: flex;
     flex-direction: column;
 }
@@ -196,8 +196,18 @@ footer{
     padding: 20px;
 }
 figcaption{
-    font-size: 14px;
+    font-size: 16px;
 }
 p{
     margin: 1em 0;
+}
+h3{
+    margin: 1em 0;
+}
+.code-snipet{
+    text-align: left;
+}
+code{
+    margin: 1em 0;
+
 }

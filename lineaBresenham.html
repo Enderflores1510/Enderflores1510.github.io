@@ -58,6 +58,110 @@
                     <img src="img/Bresenham.aaasvg.png" alt="" width="420px" height="200px">
                     <figcaption>Resultado del algoritmo de generación de linea de Bresenham</figcaption>
                 </figure>
+                <p>
+                    Al trazar una línea recta sobre papel con un lápiz, no existen impedimentos para colocar una regla y seguir una línea completamente recta.
+                </p>
+                <p>
+                    En cambio cuando se opera sobre un sistema mapeado (como es la propia representación pixelada) en filas y columnas (cuadriculado), una línea siempre seguirá un trazado imperfecto, ya que la propia línea imaginaria trazada entre dos puntos, (excepto para las líneas horizontales y verticales), siempre cortará los cuadrados por donde pase, dividiendo al punto mínimo en dos áreas de diferente tamaño. 
+                </p>
+                <p>
+                    Dados dos puntos y obtenido la distancia en el eje vertical y horizontal que los separa, se utilizan dichos valores para sobre uno de los ejes suponer un bucle de avance unitario y sobre el otro eje, preparar otro bucle anidado dentro del primero y cuyo avance es relativo, esto es, a veces avanza una unidad y a veces no. 
+                </p>
+                <p>
+                    La primera consideración es medir la distancia de la línea para cada eje. Esto es, la distancia que separa ambos puntos que definen los límites de la línea.
+
+Una vez conocida la distancia que se va a recorrer en cada eje, se trata de saber cual de los dos es la medida mayor. Así el eje de mayor medida avanzará siempre una unidad.
+
+El trazado se realiza sobre un bucle, elegido para el eje de mayor medida hallado en el paso previo. Y en cada ciclo (el eje de mayor medida) avanzará siempre una unidad en la dirección hacia el punto final en dicho eje.
+
+En cambio para el otro eje, el avance será a veces una unidad y a veces cero. Esto es, cuando recorra un tramo 'recto' el avance será cero, y cuando recorra un tramo 'inclinado' el avance será una unidad. 
+                </p>
+                <div class="code-snipet">
+                    <pre>
+                        <code>
+                            void LineaBresenham(int X1, int Y1, int X2, int Y2) {
+                                int dY = Y2 - Y1;   
+                                int dX = X2 - X1;  
+                                
+                                int IncYi, IncXi;   
+                                int IncYr, IncXr;  
+                                int av, avI, avR;   
+                            
+                            
+                                if (dY >= 0) {
+                                    IncYi = 1;
+                                } else {
+                                    dY = -dY;
+                                    IncYi = -1;
+                                }
+                            
+                                if (dX >= 0) {
+                                    IncXi = 1;
+                                } else {
+                                    dX = -dX;
+                                    IncXi = -1;
+                                }
+                            
+                                if (dX >= dY) {
+                                    IncYr = 0;
+                                    IncXr = IncXi;
+                                } else {
+                                    IncXr = 0;
+                                    IncYr = IncYi;
+                            
+                                    int k = dX;
+                                    dX = dY;
+                                    dY = k;
+                                }
+                            
+                            
+                                int X = X1;
+                                int Y = Y1;
+                                avR = 2 * dY;
+                                av = avR - dX;
+                                avI = av - dX;
+                            
+                            
+                                do {
+                                    putpixel(X, Y, RED);
+                            
+                                    if (av >= 0) {
+                                        X = X + IncXi;
+                                        Y = Y + IncYi;
+                                        av = av + avI; 
+                                    } else {
+                                        X = X + IncXr;
+                                        Y = Y + IncYr;
+                                        av = av + avR; 
+                                    }
+                            
+                                } while (X != X2 || Y != Y2);  
+                            }
+                        </code>
+                    </pre>
+                    <p>
+                        Este algoritmo se utiliza para dibujar líneas rectas entre dos puntos (x1, y1) y (x2, y2) en un plano 2D, eligiendo puntos de manera eficiente para aproximar una línea recta.
+                    </p>
+                    <h3>Funcionamiento</h3>
+                    <p>
+                        Si la diferencia horizontal (dX) es mayor o igual a la diferencia vertical (dY), la línea tendrá mayor componente en el eje X, por lo que el incremento en Y será 0 (IncYr = 0) y el incremento en X será IncXi.
+                        Si la diferencia vertical (dY) es mayor que la diferencia horizontal (dX), la línea tendrá mayor componente en el eje Y, por lo que el incremento en X será 0 (IncXr = 0) y el incremento en Y será IncYi. Además, se intercambian las diferencias dX y dY para que el algoritmo pueda reutilizarse en ambos casos.
+                    </p>
+                    <h3>Cálculo de los valores de error:</h3>
+                    <p>
+                        Se calculan los valores avR, av y avI, que sirven para controlar el movimiento entre los puntos. av es el error acumulado, y los incrementos avR y avI controlan el avance en las direcciones rectas e inclinadas.
+                    </p>
+                    <h3>Bucle principal:</h3>
+                    <p>
+                        El algoritmo recorre los puntos de la línea. En cada paso:
+                            Si el error av es mayor o igual a 0, se incrementan tanto X como Y en sus respectivas direcciones inclinadas (en caso de que sea necesario avanzar en ambas direcciones, o solo en la dirección horizontal si el error es negativo).
+                            Si el error es negativo, solo se incrementan X o Y en la dirección recta.
+                        </p>
+                    <h3>Condición de terminación</h3>
+                    <p>
+                        El bucle se repite hasta que el punto (X, Y) alcanza (X2, Y2), es decir, hasta que la línea esté completamente dibujada.
+                    </p>
+                </div>
             </div>
         </div>
     </main>

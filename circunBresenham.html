@@ -47,17 +47,85 @@
                 <h1>Algoritmo de generación de circunferencia de Bresenham</h1>
                 <h3>Definición:</h3>
                 <p>
-                    El algoritmo de generación de línea de Bresenham es un método de
-                    trazado de líneas en dispositivos gráficos, este método algorítmico
-                    es aplicable también a la generación de circunferencias y curvas.
+                    Este algoritmo se usa para dibujar circunferencias de forma eficiente, aprovechando el hecho de que la simetría de la circunferencia permite calcular solo un octante y reflejarlo en las demás partes.
                 </p>
                 <p>
-
+                    Se parte de un círculo con un radio r y su centro en (xc, yc).
+                    Se utiliza un parámetro p para decidir si el siguiente punto debe ir hacia el este (incrementar x) o hacia el sureste (incrementar tanto x como y).
+                    La iteración ocurre sobre el eje x y se utilizan reflejos sobre los otros siete octantes de la circunferencia para dibujar la circunferencia completa.
                 </p>
                 <figure>
-                    <img src="img/Bresenham.aaasvg.png" alt="" width="420px" height="200px">
-                    <figcaption>Resultado del algoritmo de generación de linea de Bresenham</figcaption>
+                    <img src="img/Bresenham_circle.svg.png" alt="" width="420px" height="200px">
+                    <figcaption>Rasterizado de una circunferencia</figcaption>
                 </figure>
+                <p>
+                    (García, 2018) Resume, al algoritmo de Bresenham para circunferencias como un algoritmo que analiza el error entre el valor real de la circunferencia y su valor discretizado, donde en cada paso el algoritmo elegirá el próximo pixel que tenga un menor grado de error al valor real, además hace uso de la simetría de una circunferencia dividida en 8 cuadrantes, donde estos se generan recursivamente a partir de la reflexión del primero. 
+                </p>
+                <figure>
+                    <img src="img/Linea_Ideal.png" alt="" width="420px" height="200px">
+                    <figcaption>Simetría de la circunferencia - Alfredo Weitzenfeld (2017)</figcaption>
+                </figure>
+                <div class="code-snipet">
+                    <pre>
+                        <code>
+                            void CircunferenciaBresenham(int xc, int yc, int r) {
+                                int x = 0, y = r;
+                                int p = 3 - 2 * r;
+                            
+                                setcolor(YELLOW);
+                                
+                                while (x <= y) {
+                                    putpixel(xc + x, yc + y, YELLOW);
+                                    putpixel(xc - x, yc + y, YELLOW);
+                                    putpixel(xc + x, yc - y, YELLOW);
+                                    putpixel(xc - x, yc - y, YELLOW);
+                                    putpixel(xc + y, yc + x, YELLOW);
+                                    putpixel(xc - y, yc + x, YELLOW);
+                                    putpixel(xc + y, yc - x, YELLOW);
+                                    putpixel(xc - y, yc - x, YELLOW);
+                            
+                                    if (p < 0) {
+                                        p = p + 4 * x + 6;
+                                    } else {
+                                        p = p + 4 * (x - y) + 10;
+                                        y--;
+                                    }
+                                    x++;
+                                }
+                            }
+                        </code>
+                        
+                    </pre>
+                </div>
+
+                <h3>Entrada</h3>
+                <p>xc, yc: Son las coordenadas del centro de la circunferencia.</p>
+                <p>r: Es el radio de la circunferencia.</p>
+
+                <h3>Proceso</h3>
+
+                <h3>1. Inicialización de variables</h3>
+                <p>x = 0: Comienza en el punto más a la derecha del centro (en el eje x).</p>
+                <p>y = r: Comienza en el punto más alto de la circunferencia (en el eje y).</p>
+                <p>p = 3 - 2 * r: Es el parámetro de decisión inicial. Este parámetro ayuda a determinar si el siguiente punto debe ser trazado en la dirección vertical o diagonal.</p>
+
+                <h3>2. Bucle principal (while (x <= y))</h3>
+                <p>Este bucle se repite mientras que x sea menor o igual a y. Esto ocurre porque, debido a la simetría de la circunferencia, se puede trazar la mitad superior de la circunferencia y, después, se utiliza la simetría para dibujar los puntos en la mitad inferior.</p>
+
+                <h3>3. Dibujo de los puntos</h3>
+                <p>En cada iteración del bucle, se dibujan 8 puntos de la circunferencia usando la simetría de la figura. Esto es posible porque la circunferencia tiene simetría respecto a los ejes y las diagonales:</p>
+                <p>(xc + x, yc + y), (xc - x, yc + y), (xc + x, yc - y), (xc - x, yc - y): Son los puntos que corresponden a la simetría en el eje X.</p>
+                <p>(xc + y, yc + x), (xc - y, yc + x), (xc + y, yc - x), (xc - y, yc - x): Son los puntos correspondientes a la simetría en el eje Y.</p>
+                <p>Estos puntos se dibujan utilizando la función putpixel(x, y, color) para poner el píxel en la pantalla.</p>
+
+                <h3>4. Cálculo de la nueva posición</h3>
+                <p>Si p < 0: Se ajusta el valor de p sumando 4 * x + 6, lo que indica que el próximo punto debe estar más cerca del eje X (movimiento horizontal).</p>
+                <p>Si p >= 0: Se ajusta el valor de p sumando 4 * (x - y) + 10, lo que implica que el próximo punto debe estar más cerca de la diagonal (movimiento diagonal), y también se decrementa y.</p>
+
+                <h3>5. Condición de salida</h3>
+                <p>El bucle termina cuando x es mayor que y, lo que significa que hemos dibujado toda la circunferencia.</p>
+
+                
             </div>
         </div>
     </main>
